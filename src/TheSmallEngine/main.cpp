@@ -30,6 +30,13 @@ VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMes
 	}
 }
 
+void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT callback, const VkAllocationCallbacks* pAllocator) {
+	auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+	if (func != nullptr) {
+		func(instance, callback, pAllocator);
+	}
+}
+
 class TheSmallEngine {
 private:
 	VkInstance instance;
@@ -66,6 +73,10 @@ private:
 	}
 
 	void cleanup() {
+		if (enableValidationLayers) {
+			DestroyDebugUtilsMessengerEXT(instance, callback, nullptr);
+		}
+
 		vkDestroyInstance(instance, nullptr);
 
 		glfwDestroyWindow(window);
