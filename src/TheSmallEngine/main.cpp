@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <vector>
+#include <optional>
 #include <iostream>
 #include <stdexcept>
 #include <functional>
@@ -19,6 +20,7 @@ const std::vector<const char*> validationLayers = {
 class TheSmallEngine {
 private:
 	VkInstance instance;
+	VkPhysicalDevice physicalDevice;
 	VkDebugUtilsMessengerEXT callback;
 	GLFWwindow* window;
 
@@ -45,6 +47,7 @@ private:
 		
 		instance = setup.createInstance(validationLayers);
 		callback = setup.setupDebugCallback(instance);
+		physicalDevice = setup.pickPhysicalDevice(instance);
 	}
 
 	void mainLoop() {
@@ -61,7 +64,6 @@ private:
 		vkDestroyInstance(instance, nullptr);
 
 		glfwDestroyWindow(window);
-
 		glfwTerminate();
 	}
 };
