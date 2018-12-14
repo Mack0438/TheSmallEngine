@@ -31,6 +31,8 @@ public:
 	VkInstance createInstance(std::vector<const char*> validationLayers);
 	VkDebugUtilsMessengerEXT setupDebugCallback(VkInstance instance);
 	VkPhysicalDevice pickPhysicalDevice(VkInstance instance);
+	VkDevice createLogicalDevice(VkPhysicalDevice physicalDevice, std::vector<const char*> validationLayers);
+	VkQueue createGraphicsQueue(VkPhysicalDevice physicalDevice, VkDevice device);
 	static VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pCallback);
 	static void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT callback, const VkAllocationCallbacks* pAllocator);
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);

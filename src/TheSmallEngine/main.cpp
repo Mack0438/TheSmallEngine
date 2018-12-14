@@ -21,8 +21,10 @@ class TheSmallEngine {
 private:
 	VkInstance instance;
 	VkPhysicalDevice physicalDevice;
+	VkDevice device;
 	VkDebugUtilsMessengerEXT callback;
 	GLFWwindow* window;
+	VkQueue graphicsQueue;
 
 public:
 	void run() {
@@ -48,6 +50,8 @@ private:
 		instance = setup.createInstance(validationLayers);
 		callback = setup.setupDebugCallback(instance);
 		physicalDevice = setup.pickPhysicalDevice(instance);
+		device = setup.createLogicalDevice(physicalDevice, validationLayers);
+		graphicsQueue = setup.createGraphicsQueue(physicalDevice, device);
 	}
 
 	void mainLoop() {
@@ -57,6 +61,8 @@ private:
 	}
 
 	void cleanup() {
+		vkDestroyDevice(device, nullptr);
+
 		if (enableValidationLayers) {
 			VulkanSetup::DestroyDebugUtilsMessengerEXT(instance, callback, nullptr);
 		}
